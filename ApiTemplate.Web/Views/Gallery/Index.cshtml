@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Animal Pets Gallery";
+}
+
+<div class="gallery-title text-center">
+    <h1>The Animal Gallery</h1>
+    <p>Some photos of a lifetime of pet ownership</p>
+</div>
+
+<div class="my-gallery">
+    <div class="row">
+        <div class="col-sm-12 col-md-4 gallery-item">
+            <a class="lightbox img-fluid"
+               href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/bridge.jpg">
+                <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/bridge.jpg" alt="Bridge">
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-4 gallery-item">
+            <a class="lightbox img-fluid"
+               href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/park.jpg">
+                <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/park.jpg" alt="Park">
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-4 gallery-item">
+            <a class="lightbox img-fluid"
+               href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/tunnel.jpg">
+                <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/tunnel.jpg" alt="Tunnel">
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-4 gallery-item">
+            <a class="lightbox img-fluid"
+               href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/traffic.jpg">
+                <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/traffic.jpg" alt="Traffic">
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-4 gallery-item">
+            <a class="lightbox img-fluid"
+               href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/rails.jpg">
+                <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/rails.jpg" alt="Coast">
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-4 gallery-item">
+            <a class="lightbox img-fluid"
+               href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/coast.jpg">
+                <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/coast.jpg" alt="Rails">
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .gallery-item {
+        margin-bottom: 30px;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.03);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-title {
+        background: linear-gradient(45deg, #0124C0, #01AE9A);
+        padding: 40px 0;
+        margin-bottom: 40px;
+        color: white;
+        border-radius: 25px 25px 25px 25px;
+    }
+</style>
+
+<script>
+        baguetteBox.run('.my-gallery', {
+            animation: 'fadeIn',
+            noScrollbars: true
+    });
+</script>

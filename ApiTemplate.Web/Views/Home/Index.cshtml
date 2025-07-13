@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- Jumbotron Header -->
+<header class="my-4 card">
+    <div class="card-body">
+        <h1 class="display-3 card-title">Welcome!</h1>
+        <p class="card-text lead">Welcome to the Animals API portal. This API includes many features in order to showcase skills and proof-of-concepts, 
+            including a barebones front end showing the image gallery and its functions.</p>
+    </div>
+    <div class="card-footer">
+        <div class="btn-group">
+            <a href=@Url.Action("Index", "Gallery") class="btn btn-lg btn-light">View the sample gallery</a>
+            <a href="/v1/index.html" class="btn btn-lg btn-light">See the Docs</a>
+        </div>
+    </div>
+</header>
