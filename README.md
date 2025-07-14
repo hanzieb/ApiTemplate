@@ -26,3 +26,10 @@
 <li>CRUD functions for gallery items linked to session-stored dbms instead of global ram</li>
 </ul>
 </p>
+
+<h3>Using these 3rd party resources:</h3>
+<ul>
+    <li><a href="https://www.flaticon.com/free-icons/shiba-inu" title="shiba inu icons">Shiba inu icons created by AomAm - Flaticon</a></li>
+    <li><a href="https://getbootstrap.com/" title="Bootstrap">Theming and layouts by Bootstrap</a></li>
+    <li><a href="https://feimosi.github.io/baguetteBox.js/" title="Baguettebox.js">Pure Js lighbox by baguetteBox.js</a></li>
+</ul>
