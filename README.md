@@ -19,6 +19,7 @@
 <h3>Future Updates:</h3>
 <p>
 <ul>
+<li>Unit and Integration Tests</li>
 <li>Gallery json payload function</li>
 <li>convert gallery ui page to client side rendering using an api ajax call</li>
 <li>anonymous bearer token issuance via CAPTCHA solving</li>
