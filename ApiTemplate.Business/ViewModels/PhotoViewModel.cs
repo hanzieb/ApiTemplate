@@ -1,4 +1,4 @@
-﻿using ApiTemplate.Model.EF;
+﻿using ApiTemplate.Model.EF.Entities;
 
 namespace ApiTemplate.Business.ViewModels
 {
@@ -7,13 +7,13 @@ namespace ApiTemplate.Business.ViewModels
         public PhotoViewModel(Photo photo) 
         {
             Id = photo.Id;
-            FileContents = photo.FileContents;
+            FilePath = photo.FilePath;
             Index = photo.Index;
             Width = photo.Width;
             Height = photo.Height;
         }
         public int Id { get; set; }
-        public byte[] FileContents { get; set; }
+        public string FilePath { get; set; }
         public int Index { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }

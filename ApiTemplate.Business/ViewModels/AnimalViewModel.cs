@@ -1,4 +1,4 @@
-﻿using ApiTemplate.Model.EF;
+﻿using ApiTemplate.Model.EF.Entities;
 using ApiTemplate.Model.Models;
 
 namespace ApiTemplate.Business.ViewModels
@@ -12,6 +12,7 @@ namespace ApiTemplate.Business.ViewModels
             Name = animal.Name;
             Description = animal.Description;
             AnimalType = animal.AnimalType;
+            Breed = animal.Breed;
         }
         public AnimalViewModel(Animal animal, IEnumerable<PhotoViewModel> photos)
                 : this(animal)
@@ -22,6 +23,7 @@ namespace ApiTemplate.Business.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Breed { get; set; }
         public AnimalTypes AnimalType {  get; set; }
         public IEnumerable<PhotoViewModel> Photos { get; set; }
     }

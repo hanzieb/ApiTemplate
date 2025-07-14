@@ -7,6 +7,6 @@ namespace ApiTemplate.Business.Repositories.Abstract
     {
         void SaveChanges();
 
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken token);
     }
 }

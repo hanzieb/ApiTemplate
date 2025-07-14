@@ -1,32 +1,29 @@
 ﻿using ApiTemplate.Business.Repositories.Abstract;
 using ApiTemplate.Model.EF;
+using ApiTemplate.Model.EF.Entities;
 using System.Data.Entity;
 
 namespace ApiTemplate.Business.Repositories
 {
-    public interface IAnimalRepository : IUowRepositoryAsync<Model.EF.Animal, int>
+    public interface IAnimalRepository : IUowRepositoryAsync<Animal, int>
     {
-        IQueryable<Animal> Get();
-        Task<Animal> GetByIdAsync(int id);
+        IQueryable<Animal> Query();
+        Task<Animal> GetByIdAsync(int id, CancellationToken token);
         Task ResetAnimals();
     }
 
-    public class AnimalRepository : UowBaseRepositoryAsync<DbMemContext, Animal, int>, IAnimalRepository
+    public class AnimalRepository : UowBaseRepositoryAsync<IScopedDbContextFactory<DbMemContext>, DbMemContext, Animal, int>, IAnimalRepository
     {
-        private readonly DbMemContext _context;
-        public AnimalRepository(DbMemContext context) : base(context) 
-        {
-            _context = context;
-        }
+        public AnimalRepository(IScopedDbContextFactory<DbMemContext> contextFactory) : base(contextFactory) { }
 
-        public IQueryable<Animal> Get()
+        public IQueryable<Animal> Query()
         {
             return NewQuery();
         }
 
-        public async Task<Animal> GetByIdAsync(int id)
+        public async Task<Animal> GetByIdAsync(int id, CancellationToken token)
         {
-            return await NewQuery().Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await NewQuery().Where(x => x.Id == id).FirstOrDefaultAsync(token);
         }
 
         public Task ResetAnimals()

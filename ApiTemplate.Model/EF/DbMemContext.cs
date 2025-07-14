@@ -1,4 +1,5 @@
-﻿using ApiTemplate.Model.Models;
+﻿using ApiTemplate.Model.EF.Entities;
+using ApiTemplate.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
@@ -10,14 +11,7 @@ namespace ApiTemplate.Model.EF
         public virtual DbSet<Animal> Animals { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
 
-        public DbMemContext(DbContextOptions<DbMemContext> options) { }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //add in here for throwing new query errors
-            optionsBuilder
-                .ConfigureWarnings(w => w.Throw(RelationalEventId.CommandError));
-        }
+        public DbMemContext(DbContextOptions<DbMemContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

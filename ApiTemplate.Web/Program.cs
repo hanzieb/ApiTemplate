@@ -1,12 +1,11 @@
+using ApiTemplate.Business.AppServices;
+using ApiTemplate.Business.Repositories;
 using ApiTemplate.Model.EF;
 using ApiTemplate.Web.Data.OpenAPI;
-using APITemplate.Helpers.Json;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,12 +29,27 @@ builder.Services
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddSingleton<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-builder.Services.AddDbContextPool<DbMemContext>(
+builder.Services.AddPooledDbContextFactory<DbMemContext>(
     options => options.UseInMemoryDatabase("AnimalDB"),
     poolSize: 1024 // Default is 1024
 );
+
+//this is a seperate quality of life injection that will automatically serve a context instance during constructor call to satisfy a single instance scenario.
+//this is the most common scenario for functions and controllers.
+//if the function needs multiple parallel operations, inject the factory and request seperate instances instead.
+builder.Services.AddScoped<IScopedDbContextFactory<DbMemContext>, ScopedDbMemContextFactory>();
+builder.Services.AddScoped(
+    sp => sp.GetRequiredService<ScopedDbMemContextFactory>().CreateDbContext());
+
+//repositories
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
+
+//services
+builder.Services.AddScoped<IPetGalleryService, PetGalleryService>();
 
 var app = builder.Build();
 

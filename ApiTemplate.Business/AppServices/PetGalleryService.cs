@@ -1,6 +1,6 @@
 ﻿using ApiTemplate.Business.Repositories;
 using ApiTemplate.Business.ViewModels;
-using ApiTemplate.Model.EF;
+using ApiTemplate.Model.EF.Entities;
 using ApiTemplate.Model.Models;
 
 namespace ApiTemplate.Business.AppServices
@@ -10,14 +10,16 @@ namespace ApiTemplate.Business.AppServices
         /// <summary>
         /// Resets the in memory datastore back to default
         /// </summary>
+        /// <param name="token"></param>
         /// <returns></returns>
-        Task SeedorResetDataStoreToDefault();
+        Task SeedorResetDataStoreToDefault(CancellationToken token);
 
         /// <summary>
         /// Returns all animals
+        /// <param name="token"></param>
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<AnimalViewModel>> GetAll();
+        Task<IEnumerable<AnimalViewModel>> GetAll(CancellationToken token);
     }
 
     public class PetGalleryService : IPetGalleryService
@@ -31,11 +33,11 @@ namespace ApiTemplate.Business.AppServices
             _photoRepository = photoRepository;
         }
 
-        public async Task<IEnumerable<AnimalViewModel>> GetAll()
+        public async Task<IEnumerable<AnimalViewModel>> GetAll(CancellationToken token)
         {
             IEnumerable<AnimalViewModel> rtn = null;
 
-            rtn = _animalRepository.Get()
+            rtn = _animalRepository.Query()
                 .Select(x => new AnimalViewModel(x,
                     x.Photos.Select(y => new PhotoViewModel(y)))
             );
@@ -43,76 +45,50 @@ namespace ApiTemplate.Business.AppServices
             return rtn;
         }
 
-        public Task SeedorResetDataStoreToDefault()
+        public async Task SeedorResetDataStoreToDefault(CancellationToken token)
         {
-            // This will get the current PROJECT directory
-            string workingDirectory = Environment.CurrentDirectory;
-            string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            string imagesFolder = Path.Combine(projectDirectory, "/Images");
+            // No need to process further if canceled
+            token.ThrowIfCancellationRequested();
 
             //reset the data stores
-            _photoRepository.ResetPhotos();
-            _animalRepository.ResetAnimals();
+            await _photoRepository.ResetPhotos();
+            await _animalRepository.ResetAnimals();
+
+            const string IMAGES_FOLDER = "/images";
 
             //re instance new models
-            var animalBugsy = _MakeAnimal("Bugsy", "My childhood black cat", AnimalTypes.Cat, new List<Photo>()
+            var animalBugsy = new Animal("Bugsy", "My childhood black cat", "American Shorthair", AnimalTypes.Cat, new List<Photo>()
             { 
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Bugsy/1.jpg")), 0, 768, 576)
+                new Photo($"{IMAGES_FOLDER}/Bugsy/1.jpg", 0, 768, 576)
             });
-            var animalDuke = _MakeAnimal("Duke", "My old man mini dachshund", AnimalTypes.Dog, new List<Photo>()
+            var animalDuke = new Animal("Duke", "My old man mini dachshund", "Mini-Dachshund", AnimalTypes.Dog, new List<Photo>()
             {
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Duke/1.jpg")), 0, 1960, 1470),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Duke/2.jpg")), 1, 2348, 1761),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Duke/3.jpg")), 2, 1960, 4032),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Duke/4.jpg")), 3, 1960, 4032),
+                new Photo($"{IMAGES_FOLDER}/Duke/1.jpg", 0, 1960, 1470),
+                new Photo($"{IMAGES_FOLDER}/Duke/2.jpg", 1, 2348, 1761),
+                new Photo($"{IMAGES_FOLDER}/Duke/3.jpg", 2, 1960, 4032),
+                new Photo($"{IMAGES_FOLDER}/Duke/4.jpg", 3, 1960, 4032),
             });
-            var animalFrankie = _MakeAnimal("Frankie", "My lil princess mini dachshund", AnimalTypes.Dog, new List<Photo>()
+            var animalFrankie = new Animal("Frankie", "My lil princess mini dachshund", "Mini-Dachshund", AnimalTypes.Dog, new List<Photo>()
             {
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Frankie/1.jpg")), 0, 3096, 2322),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Frankie/2.jpg")), 1, 4032, 1960),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Frankie/3.jpg")), 2, 1960, 4032),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Frankie/4.jpg")), 3, 3072, 2304),
+                new Photo($"{IMAGES_FOLDER}/Frankie/1.jpg", 0, 3096, 2322),
+                new Photo($"{IMAGES_FOLDER}/Frankie/2.jpg", 1, 4032, 1960),
+                new Photo($"{IMAGES_FOLDER}/Frankie/3.jpg", 2, 1960, 4032),
+                new Photo($"{IMAGES_FOLDER}/Frankie/4.jpg", 3, 3072, 2304),
             });
-            var animalToby = _MakeAnimal("Toby", "Officially the bestest boy ever", AnimalTypes.Dog, new List<Photo>()
+            var animalToby = new Animal("Toby", "Officially the bestest boy ever", "Aussie Cattle Dog", AnimalTypes.Dog, new List<Photo>()
             {
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Toby/1.jpg")), 0, 1870, 1870),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Toby/2.jpg")), 1, 2614, 1960),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Toby/3.jpg")), 2, 1960, 4032),
-                _MakePhoto(File.ReadAllBytes(Path.Combine(imagesFolder, "/Toby/4.jpg")), 3, 1870, 1870),
+                new Photo($"{IMAGES_FOLDER}/Toby/1.jpg", 0, 1870, 1870),
+                new Photo($"{IMAGES_FOLDER}/Toby/2.jpg", 1, 2614, 1960),
+                new Photo($"{IMAGES_FOLDER}/Toby/3.jpg", 2, 1960, 4032),
+                new Photo($"{IMAGES_FOLDER}/Toby/4.jpg", 3, 1870, 1870),
             });
 
             //add to the context and save
-            _animalRepository.Add(animalBugsy);
-            _animalRepository.Add(animalDuke);
-            _animalRepository.Add(animalFrankie);
-            _animalRepository.Add(animalToby);
-            _animalRepository.SaveChanges();
-
-            return Task.CompletedTask;
-        }
-
-        private Animal _MakeAnimal(string name, string desc, AnimalTypes type, List<Photo> photos)
-        {
-            Animal animal = new Animal()
-            {
-                Name = name,
-                Description = desc,
-                AnimalType = type,
-                Photos = photos
-            };
-            return animal;
-        }
-
-        private Photo _MakePhoto(byte[] fileContents, int index, int width, int height)
-        {
-            Photo photo = new Photo()
-            {
-                FileContents = fileContents,
-                Height = height,
-                Width = width,
-                Index = index
-            };
-            return photo;
+            await _animalRepository.AddAsync(animalBugsy, token);
+            await _animalRepository.AddAsync(animalDuke, token);
+            await _animalRepository.AddAsync(animalFrankie, token);
+            await _animalRepository.AddAsync(animalToby, token);
+            await _animalRepository.SaveChangesAsync(token);
         }
     }
 }
