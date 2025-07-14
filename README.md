@@ -27,6 +27,8 @@
 </ul>
 </p>
 
+<p>Feel free to use or fork my project if it helps in any way. Just please leave me a mention somewhere. Cheers =)</p>
+
 <h3>Using these 3rd party resources:</h3>
 <ul>
     <li><a href="https://www.flaticon.com/free-icons/shiba-inu" title="shiba inu icons">Shiba inu icons created by AomAm - Flaticon</a></li>
