@@ -19,6 +19,7 @@
 <h3>Future Updates:</h3>
 <p>
 <ul>
+<li>Unit and Integration Tests</li>
 <li>Gallery json payload function</li>
 <li>convert gallery ui page to client side rendering using an api ajax call</li>
 <li>anonymous bearer token issuance via CAPTCHA solving</li>
@@ -26,6 +27,8 @@
 <li>CRUD functions for gallery items linked to session-stored dbms instead of global ram</li>
 </ul>
 </p>
+
+<p>Feel free to use or fork my project if it helps in any way. Just please leave me a mention somewhere. Cheers =)</p>
 
 <h3>Using these 3rd party resources:</h3>
 <ul>
